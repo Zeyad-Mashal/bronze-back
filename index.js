@@ -7,9 +7,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { ArticlesRouter } = require('./routes/route');
+const { ArticlesRouter, ServicesRouter } = require('./routes/route');
 
-app.use(ArticlesRouter)
+app.use(ArticlesRouter);
+app.use(ServicesRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World');

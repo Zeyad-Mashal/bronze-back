@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const { image } = require('../../config/cloudinary');
-const { type } = require('node:os');
+
 const ServicesSchema = mongoose.Schema({
     images: [
         {
-        url: {type: String, required: true},
-        public_id: {type: String, required: true},
-    }],
-    title: {
+            url: { type: String, required: true },
+            public_id: { type: String, required: true },
+        }
+    ],
+    name: {
         type: String,
         required: true
     },
@@ -18,8 +18,8 @@ const ServicesSchema = mongoose.Schema({
     price: {
         type: Number,
         required: true
-}
-},{timestamps: true});
+    }
+}, { timestamps: true });
 
 const ServicesModel = mongoose.model('services', ServicesSchema);
 module.exports = ServicesModel;
