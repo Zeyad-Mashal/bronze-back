@@ -11,6 +11,10 @@ const { ArticlesRouter } = require('./routes/route');
 
 app.use(ArticlesRouter)
 
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
 const port = process.env.PORT || 3000;
 mongoose.connect(process.env.MONGO_URL).then(() => {
   app.listen(port, () => { console.log(`http://localhost:${port}`); });
