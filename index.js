@@ -38,8 +38,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 const { ArticlesRouter, ServicesRouter, ReservationsRouter } = require('./routes/route');
 
@@ -70,7 +70,25 @@ app.use((err, req, res, next) => {
   next();
 });
 
-const port = process.env.PORT || 3000;
-mongoose.connect(process.env.MONGO_URL).then(() => {
-  app.listen(port, () => { console.log(`http://localhost:${port}`); });
-}).catch((err) => { console.log(err); });
+// MongoDB connection with better error handling
+mongoose.connect(process.env.MONGO_URL, {
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+})
+  .then(() => {
+    console.log('✅ MongoDB connected successfully');
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err.message);
+  });
+
+// Export for Vercel serverless functions
+module.exports = app;
+
+// For local development
+if (require.main === module) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`🚀 Server running on http://localhost:${port}`);
+  });
+}

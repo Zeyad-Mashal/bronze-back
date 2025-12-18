@@ -12,18 +12,30 @@ const addArticle = async (req, res) => {
             return res.status(400).json({ message: "At least one image is required" });
         }
 
+        // Validate required fields
+        if (!title || !description) {
+            return res.status(400).json({ message: "Title and description are required" });
+        }
+
         const images = req.files.map(file => ({
             url: file.path,
             public_id: file.filename
         }));
+
         const articles = await ArticlesModel.create({
             title,
             description,
             image: images
         });
+
         res.status(201).json({ message: "Article created successfully", articles });
     } catch (err) {
-        res.status(500).json({ message: "Internal Server Error", Error: err.message });
+        console.error('Error in addArticle:', err);
+        res.status(500).json({
+            message: "Internal Server Error",
+            Error: err.message,
+            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+        });
     }
 }
 
