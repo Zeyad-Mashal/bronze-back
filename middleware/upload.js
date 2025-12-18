@@ -10,7 +10,15 @@ const storageArticles  = new CloudinaryStorage({
   },
 });
 
-const uploadArticles  = multer({ storage : storageArticles });
+// Multer configuration with file size limits (4MB per file, max 5 files = ~20MB total)
+// Note: Vercel has a 4.5MB total request body limit, so we limit to 4MB per file
+const uploadArticles  = multer({ 
+  storage: storageArticles,
+  limits: {
+    fileSize: 4 * 1024 * 1024, // 4MB per file
+    files: 5 // Max 5 files
+  }
+});
 
 const storageServives = new CloudinaryStorage({
   cloudinary,
@@ -20,6 +28,12 @@ const storageServives = new CloudinaryStorage({
   },
 });
 
-const uploadServices = multer({ storage : storageServives });
+const uploadServices = multer({ 
+  storage: storageServives,
+  limits: {
+    fileSize: 4 * 1024 * 1024, // 4MB per file
+    files: 10 // Max 10 files
+  }
+});
 
 module.exports = {uploadArticles , uploadServices};
