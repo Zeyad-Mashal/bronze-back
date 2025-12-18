@@ -6,7 +6,7 @@ const storageArticles  = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "Articles",
-    allowed_formats: ["jpg", "jpeg", "png"],
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"],
   },
 });
 
@@ -16,7 +16,7 @@ const storageServives = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "Services",
-    allowed_formats: ["jpg", "jpeg", "png"],
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"],
   },
 });
 
